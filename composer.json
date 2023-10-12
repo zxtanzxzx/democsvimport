@@ -11,6 +11,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/telescope": "^4.16",
         "laravel/tinker": "^2.8",
+        "league/csv": "^8.0",
         "livewire/livewire": "^3.0"
     },
     "require-dev": {
