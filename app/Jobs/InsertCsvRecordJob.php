@@ -36,7 +36,7 @@ class InsertCsvRecordJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Product::updateOrCreate(
+        Product::lockForUpdate()->updateOrCreate(
             [
                 $this->interestedColumns[0] => $this->record[$this->interestedColumns[0]],
             ],

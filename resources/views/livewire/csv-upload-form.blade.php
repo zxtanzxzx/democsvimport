@@ -1,10 +1,10 @@
 <x-custom-container>
     @if ($uploadStatus == 'uploading')
-        <div>Uploading file... Please wait while file is uploading</div>
+        <div class="p-2 my-1 bg-yellow-200">Uploading file... Please wait while file is uploading</div>
     @endif
 
     @if ($uploadStatus == 'completed')
-        <div>Upload Completed. Importing data now.</div>
+        <div class="p-2 my-1 bg-green-200">Upload Completed. Importing data now.</div>
     @endif
 
     <form wire:submit.prevent="submit">
@@ -26,10 +26,8 @@
 <script>
     function uploadChunks() {
         const file = document.querySelector('#csv_file').files[0];
-        console.log('finding...')
 
-        // Send the following later at the next available call to component
-        @this.set('fileName', file.name, true);
+        @this.set('fileName', Date.now() + '-' + file.name, true);
         @this.set('fileSize', file.size, true);
         console.log('starting...')
 
@@ -41,20 +39,10 @@
             const chunkEnd = Math.min(start + @js($chunkSize), file.size);
             const chunk = file.slice(start, chunkEnd);
 
-            console.log('uploading')
-            console.log(start)
-            console.log(chunkEnd)
-            @this.upload('fileChunk', chunk, (uName) => {
-                console.log('yooo...')
-
-            }, () => {
-                console.log('ops...')
-
-            }, (event) => {
+            @this.upload('fileChunk', chunk, (uName) => {}, () => {}, (event) => {
                 if (event.detail.progress == 100) {
                     setTimeout(3000)
 
-                    console.log(event.detail.progress)
                     start = chunkEnd;
                     if (start < file.size) {
                         livewireUploadChunk(file, start);
@@ -62,7 +50,7 @@
                 }
             });
         } catch (error) {
-            console.log(error)
+
         }
 
     }

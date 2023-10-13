@@ -18,14 +18,15 @@
                                 <tr class="border-b dark:border-neutral-500">
                                     <td class="whitespace-nowrap px-6 py-4 font-medium">{{ $csvFileUpload->created_at }}
                                     </td>
-                                    <td class="whitespace-nowrap px-6 py-4 font-medium">{{ $csvFileUpload->file_path }}
+                                    <td class="whitespace-nowrap px-6 py-4 font-medium">{{ $csvFileUpload->original_file_name }}
                                     </td>
                                     <td class="whitespace-nowrap px-6 py-4 font-medium">{{ $csvFileUpload->status }}
                                     </td>
                                     <td class="whitespace-nowrap px-6 py-4 font-medium">
-                                        @if ($csvFileUpload->status == 'pending' && $csvFileUpload->batch_id != null)
+                                        @if ($csvFileUpload->status == 'pending')
                                             @livewire('csv-import-progress-bar', ['batchId' => $csvFileUpload->batch_id])
-                                        @else
+                                            @endif
+                                        @if ($csvFileUpload->status == 'completed')
                                             All record saved.
                                         @endif
                                     </td>
